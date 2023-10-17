@@ -20,7 +20,7 @@ module.exports = () => {
     plugins: [
       //Generate html files for JS bundles
       new HtmlWebpackPlugin({
-        template: './src/index.html', //path to index.html
+        template: './index.html', //path to index.html
         filename: 'index.html',
         chunks: ['main'], //name of the chunk to be loaded
       }),
@@ -34,28 +34,28 @@ module.exports = () => {
         theme_color: '#000000',
         icons: [
           {
-            src: path.resolve('src/assets/icon.png'),
+            src: path.resolve('src/images/logo.png'),
             sizes: [96, 128, 192, 256, 384, 512], // multiple sizes
             destination: path.join('assets', 'icons'),
           },
           //not sure about this code
-          {
-            src: path.resolve('src/assets/large-icon.png'),
-            size: '1024x1024', // you can also use the specifications pattern
-          },
-          //not sure about this code
-          {
-            src: path.resolve('src/assets/maskable-icon.png'),
-            size: '1024x1024',
-            purpose: 'maskable',
-          },
+          // {
+          //   src: path.resolve('src/assets/large-icon.png'),
+          //   size: '1024x1024', // you can also use the specifications pattern
+          // },
+          // //not sure about this code
+          // {
+          //   src: path.resolve('src/assets/maskable-icon.png'),
+          //   size: '1024x1024',
+          //   purpose: 'maskable',
+          // },
         ],
       }),
 
       //Generate service worker in bundle
       new InjectManifest({
         swSrc: './src-sw.js',
-        ewDest: 'sw.js',
+        swDest: 'sw.js',
       }),
       
     ],
