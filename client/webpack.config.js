@@ -11,7 +11,8 @@ module.exports = () => {
     mode: 'development',
     entry: {
       main: './src/js/index.js',
-      install: './src/js/install.js'
+      install: './src/js/install.js',
+      header: './src/js/header.js'
     },
     output: {
       filename: '[name].bundle.js',
@@ -25,38 +26,32 @@ module.exports = () => {
         chunks: ['main'], //name of the chunk to be loaded
       }),
 
+      //Generate service worker in bundle
+      new InjectManifest({
+        swSrc: './src-sw.js',
+        swDest: 'sw.js',
+      }),
+
       //Generate manifest.json
       new WebpackPwaManifest({
+        fingerprints: false,
+        inject: true,
         name: 'JATE',
         short_name: 'JATE',
         description: 'Just Another Text Editor',
         background_color: '#ffffff',
         theme_color: '#000000',
+        start_url: '/',
+        publicPath: '/',
         icons: [
           {
             src: path.resolve('src/images/logo.png'),
             sizes: [96, 128, 192, 256, 384, 512], // multiple sizes
             destination: path.join('assets', 'icons'),
           },
-          //not sure about this code
-          // {
-          //   src: path.resolve('src/assets/large-icon.png'),
-          //   size: '1024x1024', // you can also use the specifications pattern
-          // },
-          // //not sure about this code
-          // {
-          //   src: path.resolve('src/assets/maskable-icon.png'),
-          //   size: '1024x1024',
-          //   purpose: 'maskable',
-          // },
         ],
       }),
 
-      //Generate service worker in bundle
-      new InjectManifest({
-        swSrc: './src-sw.js',
-        swDest: 'sw.js',
-      }),
       
     ],
 
