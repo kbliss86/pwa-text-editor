@@ -12,7 +12,6 @@ module.exports = () => {
     entry: {
       main: './src/js/index.js',
       install: './src/js/install.js',
-      header: './src/js/header.js'
     },
     output: {
       filename: '[name].bundle.js',
@@ -23,13 +22,12 @@ module.exports = () => {
       new HtmlWebpackPlugin({
         template: './index.html', //path to index.html
         filename: 'index.html',
-        chunks: ['main'], //name of the chunk to be loaded
       }),
 
       //Generate service worker in bundle
       new InjectManifest({
         swSrc: './src-sw.js',
-        swDest: 'sw.js',
+        swDest: 'src-sw.js',
       }),
 
       //Generate manifest.json
@@ -65,12 +63,13 @@ module.exports = () => {
 
         // Babel loader
         {
-          test: /\.js$/,
+          test: /\.m?js$/,
           exclude: /node_modules/,
           use: {
             loader: 'babel-loader',
             options: {
-                presets: ['@babel/preset-env']
+                presets: ['@babel/preset-env'],
+                plugins: ['@babel/plugin-proposal-object-rest-spread', '@babel/transform-runtime'],
             }
           }
         },
